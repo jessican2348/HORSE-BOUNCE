@@ -23,3 +23,77 @@ const horsePictures = [
         scale: 1
     }
 ];
+
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+let horses = [];
+let gravityOn = true;
+const engine = Engine.create();
+
+const render = Render.create({
+    element: document.getElementById('canvas'),
+    engine: engine,
+    options: {
+        width: width,
+        height: height,
+        wireframes: false,
+        background: 'transparent'
+    }
+});
+
+const wallOptions = {
+    isStatic: true,
+    render: {
+        visible: false
+    }
+};
+
+const ground = Bodies.rectangle(width / 2, height + 50, width, 100, wallOptions);
+const ceiling = Bodies.rectangle(width / 2, -50, width, 100, wallOptions);
+const leftWall = Bodies.rectangle(-50, height / 2, 100, height, wallOptions);
+const rightWall = Bodies.rectangle(width + 50, height / 2, 100, height, wallOptions);
+
+Composite.add(engine.world, [ground, ceiling, leftWall, rightWall]);
+const mouse = Mouse.create(render.canvas);
+
+const mouseConstraint = MouseConstraint.create(engine, {
+    mouse: mouse,
+    constraint: {
+        stiffness: 0.2,
+        render: {
+            visible: false
+        }
+    }
+});
+
+Composite.add(engine.world, mouseConstraint);
+Render.run(render);
+Runner.run(Runner.create(), engine);
+
+for (let i = 0; i < 5; i++) {
+    addHorse(random(80, width - 80), 80);
+}
+function addHorse(x, y) {
+    let horseType = horsePictures[Math.floor(Math.random() * horsePictures.length)];
+
+    const horse = Bodies.circle(x, y, 45, {
+        restitution: 0.8,
+        friction: 0.05,
+        render: {
+            sprite: {
+                texture: horseType.picture,
+                xScale: horseType.scale,
+                yScale: horseType.scale
+            }
+        }
+    });
+
+    Composite.add(engine.world, horse);
+    horses.push(horse);
+}
+
+
+function random(min, max) {
+    return Math.random() * (max - min) + min;
+}
