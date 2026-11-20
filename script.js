@@ -74,6 +74,45 @@ Runner.run(Runner.create(), engine);
 for (let i = 0; i < 5; i++) {
     addHorse(random(80, width - 80), 80);
 }
+document.getElementById('add-horse').addEventListener('click', function () {
+    addHorse(random(80, width - 80), 80);
+});
+
+document.getElementById('rain-button').addEventListener('click', function () {
+    for (let i = 0; i < 15; i++) {
+        addHorse(random(80, width - 80), random(60, 200));
+    }
+});
+
+document.getElementById('shake-button').addEventListener('click', function () {
+    for (let i = 0; i < horses.length; i++) {
+        Body.setVelocity(horses[i], { x: random(-15, 15), y: random(-25, -10) });
+    }
+});
+
+document.getElementById('gravity-toggle').addEventListener('click', function () {
+    if (gravityOn == true) {
+        gravityOn = false;
+        engine.gravity.y = 0;
+        this.textContent = 'Gravity: Off';
+
+        for (let i = 0; i < horses.length; i++) {
+            Body.setVelocity(horses[i], { x: random(-4, 4), y: random(-4, 4) });
+        }
+    } else {
+        gravityOn = true;
+        engine.gravity.y = 1;
+        this.textContent = 'Gravity: On';
+    }
+});
+
+document.getElementById('clear-button').addEventListener('click', function () {
+    for (let i = 0; i < horses.length; i++) {
+        Composite.remove(engine.world, horses[i]);
+    }
+    horses = [];
+    updateCounter();
+});
 function addHorse(x, y) {
     let horseType = horsePictures[Math.floor(Math.random() * horsePictures.length)];
 
@@ -92,7 +131,10 @@ function addHorse(x, y) {
     Composite.add(engine.world, horse);
     horses.push(horse);
 }
-
+updateCounter();
+function updateCounter() {
+    document.getElementById('counter').textContent = 'Horses in the paddock: ' + horses.length;
+}
 
 function random(min, max) {
     return Math.random() * (max - min) + min;
