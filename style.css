@@ -11,12 +11,9 @@
   font-weight: 400;
   font-style: normal;
 }
-
-
 /* popup box (Featherlight) */
 
 .featherlight .featherlight-content {
   background-color: #f5efe0;
-  border: 3px solid #c5562a;
   border-radius: 16px;
 }

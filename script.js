@@ -174,7 +174,7 @@ function addHorse(x, y) {
     let horseType = horsePictures[Math.floor(Math.random() * horsePictures.length)];
     let isGolden = false;
 
-    // 1 in 12 chance of a golden horse
+   
     if (Math.random() < 0.08) {
         horseType = goldenPicture;
         isGolden = true;
