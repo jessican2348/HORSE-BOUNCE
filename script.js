@@ -24,6 +24,27 @@ const horsePictures = [
     }
 ];
 
+const jokes = [
+    'What do you call a horse that lives next door? A neigh-bour.',
+    'What do you call a pony with a sore throat? A little hoarse.',
+    'Why did the horse go to the doctor? It was feeling a little un-stable.',
+    'Which side of a horse has the most hair? The outside.',
+    'What did the horse say when it finished its food? That\'s the last straw!',
+    'What kind of horse only comes out at night? A night-mare.',
+    'What does a horse say when it falls? Help, I\'ve fallen and I can\'t giddy-up!'
+];
+
+const facts = [
+    'Horses can sleep standing up. They lock their legs so they don\'t fall over!',
+    'Horses can\'t breathe through their mouths, only through their noses.',
+    'Horses have the biggest eyes of any land mammal.',
+    'Horses can\'t throw up.',
+    'A baby horse (a foal) can stand up and walk within a couple of hours of being born.',
+    'Horse hooves are made of keratin, the same thing as your fingernails.',
+    'A horse\'s height is measured in \'hands\'. One hand is 4 inches.',
+    'Because their eyes are on the sides of their head, horses can see almost all the way around them.'
+];
+
 const width = window.innerWidth;
 const height = window.innerHeight;
 
@@ -68,6 +89,18 @@ const mouseConstraint = MouseConstraint.create(engine, {
 });
 
 Composite.add(engine.world, mouseConstraint);
+Events.on(mouseConstraint, 'mouseup', function () {
+    const movedX = Math.abs(mouse.mouseupPosition.x - mouse.mousedownPosition.x);
+    const movedY = Math.abs(mouse.mouseupPosition.y - mouse.mousedownPosition.y);
+
+    if (movedX < 5 && movedY < 5) {
+        const clickedHorses = Query.point(horses, mouse.mouseupPosition);
+
+        if (clickedHorses.length > 0) {
+            showJoke(clickedHorses[0]);
+        }
+    }
+});
 Render.run(render);
 Runner.run(Runner.create(), engine);
 
@@ -113,6 +146,23 @@ document.getElementById('clear-button').addEventListener('click', function () {
     horses = [];
     updateCounter();
 });
+function showJoke(horse) {
+    const joke = jokes[Math.floor(Math.random() * jokes.length)];
+    const fact = facts[Math.floor(Math.random() * facts.length)];
+
+    if (Math.random() < 0.5) {
+        document.getElementById('joke-label').textContent = 'Horse dad joke';
+        document.getElementById('joke-text').textContent = joke;
+    } else {
+        document.getElementById('joke-label').textContent = 'Horse fact';
+        document.getElementById('joke-text').textContent = fact;
+    }
+
+    document.getElementById('joke-image').src = horse.render.sprite.texture;
+
+    $.featherlight($('#joke-box'));
+}
+
 function addHorse(x, y) {
     let horseType = horsePictures[Math.floor(Math.random() * horsePictures.length)];
 
@@ -130,8 +180,9 @@ function addHorse(x, y) {
 
     Composite.add(engine.world, horse);
     horses.push(horse);
+    updateCounter();
 }
-updateCounter();
+
 function updateCounter() {
     document.getElementById('counter').textContent = 'Horses in the paddock: ' + horses.length;
 }
