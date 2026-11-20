@@ -11,22 +11,24 @@ const Query = Matter.Query;
 
 const horsePictures = [
     {
-        picture: 'https://static.vecteezy.com/system/resources/thumbnails/048/050/905/small/a-horse-standing-on-transparent-background-png.png',
+        src: 'https://static.vecteezy.com/system/resources/thumbnails/048/050/905/small/a-horse-standing-on-transparent-background-png.png',
         scale: 1
     },
     {
-        picture: 'https://static.vecteezy.com/system/resources/thumbnails/024/508/958/small/horse-isolated-on-background-with-generative-ai-png.png',
+        src: 'https://static.vecteezy.com/system/resources/thumbnails/024/508/958/small/horse-isolated-on-background-with-generative-ai-png.png',
         scale: 1
     },
     {
-        picture: 'https://th.bing.com/th/id/R.fcc8220cacb2a145d350b5b2a1827efb?rik=tv1wougKZZuNRA&pid=ImgRaw&r=0',
+        src: 'https://th.bing.com/th/id/R.fcc8220cacb2a145d350b5b2a1827efb?rik=tv1wougKZZuNRA&pid=ImgRaw&r=0',
         scale: 1
     }
 ];
+
 const goldenPicture = {
-    picture: 'https://static.vecteezy.com/system/resources/thumbnails/058/324/912/small/gold-horse-isolated-on-transparent-background-png.png',
+    src: 'https://static.vecteezy.com/system/resources/thumbnails/058/324/912/small/gold-horse-isolated-on-transparent-background-png.png',
     scale: 1
 };
+
 
 const jokes = [
     'What do you call a horse that lives next door? A neigh-bour.',
@@ -183,8 +185,8 @@ function addHorse(x, y) {
         restitution: 0.8,
         friction: 0.05,
         render: {
-            sprite: {
-                texture: horseType.picture,
+                        sprite: {
+                texture: horseType.src,
                 xScale: horseType.scale,
                 yScale: horseType.scale
             }
