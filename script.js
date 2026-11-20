@@ -23,6 +23,10 @@ const horsePictures = [
         scale: 1
     }
 ];
+const goldenPicture = {
+    picture: 'https://static.vecteezy.com/system/resources/thumbnails/058/324/912/small/gold-horse-isolated-on-transparent-background-png.png',
+    scale: 1
+};
 
 const jokes = [
     'What do you call a horse that lives next door? A neigh-bour.',
@@ -150,7 +154,10 @@ function showJoke(horse) {
     const joke = jokes[Math.floor(Math.random() * jokes.length)];
     const fact = facts[Math.floor(Math.random() * facts.length)];
 
-    if (Math.random() < 0.5) {
+        if (horse.isGolden == true) {
+        document.getElementById('joke-label').textContent = '✨ You found the rare golden horse! ✨';
+        document.getElementById('joke-text').innerHTML = joke + '<br><br>' + fact;
+    } else if (Math.random() < 0.5) {
         document.getElementById('joke-label').textContent = 'Horse dad joke';
         document.getElementById('joke-text').textContent = joke;
     } else {
@@ -165,7 +172,13 @@ function showJoke(horse) {
 
 function addHorse(x, y) {
     let horseType = horsePictures[Math.floor(Math.random() * horsePictures.length)];
+    let isGolden = false;
 
+    // 1 in 12 chance of a golden horse
+    if (Math.random() < 0.08) {
+        horseType = goldenPicture;
+        isGolden = true;
+    }
     const horse = Bodies.circle(x, y, 45, {
         restitution: 0.8,
         friction: 0.05,
@@ -177,6 +190,7 @@ function addHorse(x, y) {
             }
         }
     });
+        horse.isGolden = isGolden;
 
     Composite.add(engine.world, horse);
     horses.push(horse);
